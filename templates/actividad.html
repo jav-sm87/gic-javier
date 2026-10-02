@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block titulo %}Actividad{% endblock %}
+{% block contenido %}
+<header class="encabezado"><div><h1>Actividad</h1>
+<p class="sub">Últimas operaciones registradas. El detalle técnico queda en logs/gic.log.</p></div></header>
+{% if operaciones %}
+<ol class="bitacora">
+  {% for o in operaciones %}
+  <li><time>{{ o.fecha }}</time><span class="op op-{{ o.operacion|lower }}">{{ o.operacion|capitalize }}</span><span>{{ o.detalle }}</span></li>
+  {% endfor %}
+</ol>
+{% else %}<div class="vacio"><p>Aún no hay operaciones registradas.</p></div>{% endif %}
+{% endblock %}

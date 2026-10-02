@@ -1,0 +1,82 @@
+digraph GIC {
+  graph [rankdir=TB, fontname="Helvetica", nodesep=0.45, ranksep=0.7, bgcolor="white", pad=0.3];
+  node  [shape=plain, fontname="Helvetica", fontsize=10];
+  edge  [fontname="Helvetica", fontsize=9, color="#13294b"];
+
+  Cliente [label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="4" color="#13294b">
+    <tr><td bgcolor="#13294b"><font color="white"><i>«abstract»</i><br/><b>Cliente</b></font></td></tr>
+    <tr><td align="left" balign="left">- __id: int<br/>- __rut: str<br/>- __nombre: str<br/>- __email: str<br/>- __telefono: str<br/>- __direccion: Direccion<br/>- __fecha_registro: str</td></tr>
+    <tr><td align="left" balign="left" bgcolor="#e8eef7">+ <i>calcular_descuento(monto): float</i><br/>+ <i>beneficios(): list</i><br/>+ mensaje_bienvenida(): str<br/>+ precio_final(monto): float<br/>+ to_dict(): dict<br/>+ __str__() / __eq__() / __hash__()</td></tr></table>>];
+
+  Direccion [label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="4" color="#13294b">
+    <tr><td bgcolor="#13294b"><font color="white"><b>Direccion</b></font></td></tr>
+    <tr><td align="left" balign="left">+ calle: str<br/>+ numero: str<br/>+ comuna: str<br/>+ region: str</td></tr>
+    <tr><td align="left" balign="left" bgcolor="#e8eef7">+ to_dict(): dict<br/>+ from_dict(datos): Direccion<br/>+ __str__() / __eq__()</td></tr></table>>];
+
+  Regular [label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="4" color="#2f5d9e">
+    <tr><td bgcolor="#2f5d9e"><font color="white"><b>ClienteRegular</b></font></td></tr>
+    <tr><td align="left" balign="left">TIPO = "regular"</td></tr>
+    <tr><td align="left" balign="left" bgcolor="#e8eef7">+ calcular_descuento(): 0%<br/>+ beneficios()</td></tr></table>>];
+
+  Premium [label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="4" color="#2f5d9e">
+    <tr><td bgcolor="#2f5d9e"><font color="white"><b>ClientePremium</b></font></td></tr>
+    <tr><td align="left" balign="left">- __nivel: str<br/>- __puntos: int</td></tr>
+    <tr><td align="left" balign="left" bgcolor="#e8eef7">+ acumular_puntos(monto): int<br/>+ calcular_descuento(): 10–20%<br/>+ beneficios()<br/>+ to_dict()</td></tr></table>>];
+
+  Corporativo [label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="4" color="#2f5d9e">
+    <tr><td bgcolor="#2f5d9e"><font color="white"><b>ClienteCorporativo</b></font></td></tr>
+    <tr><td align="left" balign="left">+ razon_social: str<br/>+ rut_empresa: str<br/>- __empleados: int</td></tr>
+    <tr><td align="left" balign="left" bgcolor="#e8eef7">+ calcular_descuento(): 5–25%<br/>+ beneficios()<br/>+ mensaje_bienvenida()<br/>+ __str__() / to_dict()</td></tr></table>>];
+
+  Gestor [label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="4" color="#13294b">
+    <tr><td bgcolor="#13294b"><font color="white"><b>GestorClientes</b></font></td></tr>
+    <tr><td align="left" balign="left">- repo: RepositorioClientes<br/>- validador: ValidadorIdentidad<br/>- notificador: Notificador</td></tr>
+    <tr><td align="left" balign="left" bgcolor="#e8eef7">+ crear(datos): Cliente<br/>+ editar(id, datos): Cliente<br/>+ eliminar(id)<br/>+ listar(tipo, texto): list<br/>+ resumen(): dict<br/>+ exportar(ruta) / importar(ruta)</td></tr></table>>];
+
+  Repo [label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="4" color="#13294b">
+    <tr><td bgcolor="#13294b"><font color="white"><i>«abstract»</i><br/><b>RepositorioClientes</b></font></td></tr>
+    <tr><td align="left" balign="left" bgcolor="#e8eef7">+ <i>agregar / actualizar / eliminar</i><br/>+ <i>obtener / listar</i><br/>+ <i>registrar_auditoria</i></td></tr></table>>];
+
+  SQLite [label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="4" color="#2f5d9e">
+    <tr><td bgcolor="#2f5d9e"><font color="white"><b>RepositorioSQLite</b></font></td></tr>
+    <tr><td align="left" balign="left">+ ruta_db: str</td></tr>
+    <tr><td align="left" balign="left" bgcolor="#e8eef7">- _conexion(): contextmanager<br/>+ ultimas_operaciones(): list</td></tr></table>>];
+
+  JSON [label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="4" color="#13294b">
+    <tr><td bgcolor="#13294b"><font color="white"><b>ArchivoJSON</b></font></td></tr>
+    <tr><td align="left" balign="left">+ ruta: Path</td></tr>
+    <tr><td align="left" balign="left" bgcolor="#e8eef7">+ exportar(clientes)<br/>+ importar(): list<br/># _escribir() / _leer()</td></tr></table>>];
+
+  CSV [label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="4" color="#2f5d9e">
+    <tr><td bgcolor="#2f5d9e"><font color="white"><b>ArchivoCSV</b></font></td></tr>
+    <tr><td align="left" balign="left" bgcolor="#e8eef7"># _escribir() / _leer()</td></tr></table>>];
+
+  Validador [label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="4" color="#13294b">
+    <tr><td bgcolor="#13294b"><font color="white"><b>ValidadorIdentidad</b></font></td></tr>
+    <tr><td align="left" balign="left">+ habilitado: bool<br/>+ timeout: float</td></tr>
+    <tr><td align="left" balign="left" bgcolor="#e8eef7">+ consultar_email(email): dict<br/>+ validar(rut, email): list</td></tr></table>>];
+
+  Notificador [label=<<table border="1" cellborder="0" cellspacing="0" cellpadding="4" color="#13294b">
+    <tr><td bgcolor="#13294b"><font color="white"><b>Notificador</b></font></td></tr>
+    <tr><td align="left" balign="left">+ host / puerto / usuario</td></tr>
+    <tr><td align="left" balign="left" bgcolor="#e8eef7">+ enviar_bienvenida(cliente): str</td></tr></table>>];
+
+  API [shape=box, style="rounded,dashed", color="#5b6678", fontcolor="#5b6678", label="API Disify\n(validación de email)"];
+  SMTP [shape=box, style="rounded,dashed", color="#5b6678", fontcolor="#5b6678", label="Servidor SMTP"];
+
+  {rank=same; Regular; Premium; Corporativo;}
+
+  Gestor -> Cliente [arrowhead=odiamond, arrowtail=none, dir=back, arrowtail=odiamond, arrowhead=none, headlabel="0..*", taillabel="1", label="  agregación"];
+  Cliente -> Direccion [dir=back, arrowtail=diamond, arrowhead=none, headlabel="1", taillabel="1", label="  composición"];
+  Regular -> Cliente [arrowhead=onormal];
+  Premium -> Cliente [arrowhead=onormal];
+  Corporativo -> Cliente [arrowhead=onormal];
+  Gestor -> Repo [arrowhead=vee, label=" usa"];
+  SQLite -> Repo [arrowhead=onormal, style=dashed, label=" implementa"];
+  CSV -> JSON [arrowhead=onormal];
+  Gestor -> JSON [arrowhead=vee, style=dashed, label=" exporta/importa"];
+  Gestor -> Validador [arrowhead=vee];
+  Gestor -> Notificador [arrowhead=vee];
+  Validador -> API [arrowhead=vee, style=dashed, color="#5b6678", label=" HTTP"];
+  Notificador -> SMTP [arrowhead=vee, style=dashed, color="#5b6678"];
+}

@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block titulo %}No encontrado{% endblock %}
+{% block contenido %}
+<div class="vacio"><h1>Ese cliente no existe</h1><p>Puede que haya sido eliminado.</p>
+<a class="boton" href="{{ url_for('lista') }}">Volver a clientes</a></div>
+{% endblock %}

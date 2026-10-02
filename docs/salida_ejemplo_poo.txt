@@ -1,0 +1,19 @@
+Clientes creados:
+   [Regular] Ana Rojas (11111111-1) - ana@correo.cl
+   [Premium] Pedro Díaz (12345678-5) - pedro@correo.cl
+   [Corporativo] Carla Muñoz (9876543-3) - cmunoz@andestech.cl | Andes Tech SpA
+
+Email normalizado: ana@correo.cl | Teléfono: +56911112222
+Asignación rechazada: El email no tiene un formato válido
+Instanciación rechazada: El dígito verificador del RUT no coincide
+
+Compra de $100.000:
+   ClienteRegular       descuento $        0  total $  100,000
+   ClientePremium       descuento $   15,000  total $   85,000
+   ClienteCorporativo   descuento $    7,000  total $   93,000
+
+¿ana == copia? True | ¿ana == pedro? False
+Puntos de Pedro tras comprar $25.500: 25
+
+Bienvenida corporativa:
+   Hola Carla Muñoz, te damos la bienvenida a SolutionTech. Tus beneficios: Descuento por volumen, Ejecutivo de cuenta dedicado, Facturación mensual. Gracias por confiar en nosotros como Andes Tech SpA.

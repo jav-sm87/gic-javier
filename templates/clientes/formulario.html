@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% block titulo %}{{ 'Editar' if editando else 'Nuevo' }} cliente{% endblock %}
+{% macro campo(nombre, etiqueta, tipo='text', ayuda='', extra='') %}
+  <div class="campo {{ 'con-error' if errores.get(nombre) }}">
+    <label for="{{ nombre }}">{{ etiqueta }}</label>
+    <input id="{{ nombre }}" name="{{ nombre }}" type="{{ tipo }}" {{ extra|safe }}
+      value="{{ datos.get(nombre, '') if nombre not in ('calle','numero','comuna','region') else (datos.get('direccion') or {}).get(nombre, '') }}">
+    {% if errores.get(nombre) %}<p class="error">{{ errores[nombre] }}</p>{% elif ayuda %}<p class="ayuda">{{ ayuda }}</p>{% endif %}
+  </div>
+{% endmacro %}
+{% block contenido %}
+<header class="encabezado">
+  <div>
+    <h1>{{ 'Editar cliente' if editando else 'Nuevo cliente' }}</h1>
+    <p class="sub">Los datos se validan al guardar{% if not editando %} y se envía un correo de bienvenida{% endif %}.</p>
+  </div>
+</header>
+
+{% if errores %}<p class="aviso aviso-error">{{ errores.general or 'Revisa los campos marcados en rojo.' }}</p>{% endif %}
+
+<form method="post" class="formulario" novalidate>
+  <fieldset>
+    <legend>Tipo de cliente</legend>
+    <div class="selector-tipo">
+      {% for t in tipos %}
+      <label class="opcion-tipo opcion-{{ t }}">
+        <input type="radio" name="tipo" value="{{ t }}" {{ 'checked' if datos.get('tipo', 'regular') == t }}>
+        <span>{{ t|capitalize }}</span>
+      </label>
+      {% endfor %}
+    </div>
+    {% if errores.get('tipo') %}<p class="error">{{ errores.tipo }}</p>{% endif %}
+  </fieldset>
+
+  <fieldset>
+    <legend>Datos personales</legend>
+    <div class="rejilla">
+      {{ campo('rut', 'RUT', ayuda='Ej: 12.345.678-5', extra='readonly' if editando else '') }}
+      {{ campo('nombre', 'Nombre completo') }}
+      {{ campo('email', 'Email', 'email') }}
+      {{ campo('telefono', 'Teléfono', 'tel', 'Celular chileno: +56 9 1234 5678') }}
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Dirección</legend>
+    {% if errores.get('direccion') %}<p class="error">{{ errores.direccion }}</p>{% endif %}
+    <div class="rejilla">
+      {{ campo('calle', 'Calle') }}
+      {{ campo('numero', 'Número') }}
+      {{ campo('comuna', 'Comuna') }}
+      {{ campo('region', 'Región') }}
+    </div>
+  </fieldset>
+
+  <fieldset class="solo-premium">
+    <legend>Datos premium</legend>
+    <div class="rejilla">
+      <div class="campo {{ 'con-error' if errores.get('nivel') }}">
+        <label for="nivel">Nivel</label>
+        <select id="nivel" name="nivel">
+          {% for n in niveles %}<option value="{{ n }}" {{ 'selected' if datos.get('nivel') == n }}>{{ n|capitalize }}</option>{% endfor %}
+        </select>
+        {% if errores.get('nivel') %}<p class="error">{{ errores.nivel }}</p>{% endif %}
+      </div>
+      {{ campo('puntos', 'Puntos acumulados', 'number', extra='min="0"') }}
+    </div>
+  </fieldset>
+
+  <fieldset class="solo-corporativo">
+    <legend>Datos de la empresa</legend>
+    <div class="rejilla">
+      {{ campo('razon_social', 'Razón social') }}
+      {{ campo('rut_empresa', 'RUT empresa', ayuda='Ej: 76.086.428-5') }}
+      {{ campo('empleados', 'N° de empleados', 'number', extra='min="1"') }}
+    </div>
+  </fieldset>
+
+  <div class="botones">
+    <button class="boton" type="submit">{{ 'Guardar cambios' if editando else 'Crear cliente' }}</button>
+    <a class="boton boton-sec" href="{{ url_for('detalle', id_cliente=id_cliente) if editando else url_for('lista') }}">Cancelar</a>
+  </div>
+</form>
+{% endblock %}
+{% block scripts %}
+<script>
+  // Muestra solo los campos del tipo elegido
+  const radios = document.querySelectorAll('input[name="tipo"]');
+  function actualizar() {
+    const tipo = document.querySelector('input[name="tipo"]:checked')?.value;
+    document.querySelector('.solo-premium').hidden = tipo !== 'premium';
+    document.querySelector('.solo-corporativo').hidden = tipo !== 'corporativo';
+  }
+  radios.forEach(r => r.addEventListener('change', actualizar));
+  actualizar();
+</script>
+{% endblock %}

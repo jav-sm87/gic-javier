@@ -1,0 +1,130 @@
+/* GIC · paleta azul oscuro */
+:root {
+  --marino: #13294b;
+  --marino-2: #0c1d38;
+  --acero: #2f5d9e;
+  --hielo: #e8eef7;
+  --fondo: #f4f6fa;
+  --tinta: #1b2536;
+  --gris: #5b6678;
+  --borde: #d5dce8;
+  --regular: #6b7a90;
+  --premium: #b8860b;
+  --corporativo: #1f7a74;
+  --error: #b42318;
+  --ok: #1e6b3a;
+  font-family: "Figtree", "Segoe UI", system-ui, sans-serif;
+  color: var(--tinta);
+}
+* { box-sizing: border-box; }
+body { margin: 0; display: grid; grid-template-columns: 230px 1fr; min-height: 100vh; background: var(--fondo); font-size: 15px; line-height: 1.5; }
+a { color: var(--acero); }
+:focus-visible { outline: 3px solid #7fa6dd; outline-offset: 2px; }
+
+.lateral { background: var(--marino); color: #fff; padding: 28px 18px; display: flex; flex-direction: column; gap: 28px; position: sticky; top: 0; height: 100vh; }
+.marca { display: flex; gap: 10px; align-items: center; color: #fff; text-decoration: none; }
+.marca-sigla { font-weight: 700; font-size: 26px; letter-spacing: -0.5px; background: #fff; color: var(--marino); padding: 2px 8px; border-radius: 6px; }
+.marca-nombre { font-size: 13px; line-height: 1.25; opacity: .85; }
+.lateral nav { display: flex; flex-direction: column; gap: 2px; }
+.lateral nav a { color: #cdd8ea; text-decoration: none; padding: 9px 12px; border-radius: 6px; font-weight: 500; }
+.lateral nav a:hover { background: var(--marino-2); color: #fff; }
+.lateral nav a.activo { background: var(--acero); color: #fff; }
+.pie { margin-top: auto; font-size: 12px; opacity: .6; }
+
+.contenido { padding: 32px 40px 60px; max-width: 1150px; width: 100%; }
+.encabezado { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
+h1 { font-size: 30px; margin: 4px 0 2px; letter-spacing: -0.4px; color: var(--marino); }
+h2 { font-size: 17px; color: var(--marino); margin: 0 0 12px; }
+.sub { margin: 0; color: var(--gris); }
+
+.boton { display: inline-block; background: var(--marino); color: #fff; border: 1px solid var(--marino); padding: 9px 16px; border-radius: 7px; font: inherit; font-weight: 600; text-decoration: none; cursor: pointer; }
+.boton:hover { background: var(--acero); border-color: var(--acero); }
+.boton-sec { background: #fff; color: var(--marino); border-color: var(--borde); }
+.boton-sec:hover { background: var(--hielo); color: var(--marino); border-color: var(--acero); }
+.boton-peligro { background: #fff; color: var(--error); border-color: #f1c4bf; }
+.boton-peligro:hover { background: var(--error); color: #fff; border-color: var(--error); }
+.botones { display: flex; gap: 10px; align-items: center; }
+.botones form { margin: 0; }
+
+.avisos { display: grid; gap: 6px; margin-bottom: 18px; }
+.aviso { margin: 0; padding: 10px 14px; border-radius: 7px; border-left: 4px solid var(--acero); background: var(--hielo); }
+.aviso-ok { border-color: var(--ok); background: #e7f3eb; }
+.aviso-error { border-color: var(--error); background: #fbeceb; }
+
+.filtros { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
+.filtros input[type=search] { flex: 1 1 260px; }
+input, select { font: inherit; padding: 9px 11px; border: 1px solid var(--borde); border-radius: 7px; background: #fff; color: var(--tinta); width: 100%; }
+input[readonly] { background: var(--hielo); color: var(--gris); }
+.segmentos { display: flex; border: 1px solid var(--borde); border-radius: 7px; overflow: hidden; background: #fff; }
+.segmentos a { padding: 9px 14px; text-decoration: none; color: var(--gris); font-weight: 500; border-right: 1px solid var(--borde); }
+.segmentos a:last-child { border-right: 0; }
+.segmentos a.sel { background: var(--marino); color: #fff; }
+
+.tabla-envoltura { overflow-x: auto; background: #fff; border: 1px solid var(--borde); border-radius: 10px; }
+.tabla { width: 100%; border-collapse: collapse; }
+.tabla th { text-align: left; font-size: 13px; font-weight: 600; color: var(--gris); padding: 11px 14px; border-bottom: 1px solid var(--borde); background: #fafbfd; }
+.tabla td { padding: 12px 14px; border-bottom: 1px solid #edf0f5; vertical-align: top; }
+.tabla tr:last-child td { border-bottom: 0; }
+.tabla tbody tr { box-shadow: inset 4px 0 0 var(--regular); }
+.tabla tbody tr.fila-premium { box-shadow: inset 4px 0 0 var(--premium); }
+.tabla tbody tr.fila-corporativo { box-shadow: inset 4px 0 0 var(--corporativo); }
+.tabla tbody tr:hover { background: #f7f9fc; }
+.nombre { font-weight: 600; color: var(--marino); text-decoration: none; }
+.detalle-chico { display: block; font-size: 13px; color: var(--gris); }
+.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.acciones { text-align: right; }
+
+.etiqueta { display: inline-block; font-size: 12.5px; font-weight: 600; padding: 2px 9px; border-radius: 999px; background: #eef1f6; color: var(--regular); }
+.etiqueta-premium { background: #fbf3df; color: #8a6508; }
+.etiqueta-corporativo { background: #e1f1ef; color: var(--corporativo); }
+
+.vacio { background: #fff; border: 1px dashed var(--borde); border-radius: 10px; padding: 36px; text-align: center; color: var(--gris); }
+
+.archivos { margin-top: 34px; background: #fff; border: 1px solid var(--borde); border-radius: 10px; padding: 20px 22px; }
+.archivos-fila { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+.archivos p, .archivos label { margin: 0 0 8px; display: block; color: var(--gris); }
+.importar { display: flex; gap: 8px; }
+
+.formulario fieldset { border: 1px solid var(--borde); background: #fff; border-radius: 10px; padding: 18px 20px 6px; margin: 0 0 16px; }
+.formulario legend { font-weight: 700; color: var(--marino); padding: 0 6px; }
+.rejilla { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 4px 18px; }
+.campo { margin-bottom: 12px; }
+.campo label { display: block; font-weight: 500; margin-bottom: 4px; font-size: 14px; }
+.ayuda { margin: 4px 0 0; font-size: 12.5px; color: var(--gris); }
+.error { margin: 4px 0 0; font-size: 13px; color: var(--error); font-weight: 500; }
+.con-error input, .con-error select { border-color: var(--error); background: #fffafa; }
+.selector-tipo { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+.opcion-tipo { cursor: pointer; }
+.opcion-tipo input { position: absolute; opacity: 0; width: 1px; }
+.opcion-tipo span { display: block; padding: 10px 20px; border: 2px solid var(--borde); border-radius: 8px; font-weight: 600; color: var(--gris); }
+.opcion-tipo input:checked + span { border-color: var(--marino); background: var(--marino); color: #fff; }
+.opcion-premium input:checked + span { border-color: var(--premium); background: var(--premium); }
+.opcion-corporativo input:checked + span { border-color: var(--corporativo); background: var(--corporativo); }
+.opcion-tipo input:focus-visible + span { outline: 3px solid #7fa6dd; outline-offset: 2px; }
+
+.ficha { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.ficha section { background: #fff; border: 1px solid var(--borde); border-radius: 10px; padding: 20px 22px; }
+.ficha dl { display: grid; grid-template-columns: 110px 1fr; gap: 8px 12px; margin: 0; }
+.ficha dt { color: var(--gris); }
+.ficha dd { margin: 0; }
+.beneficios { margin: 0 0 18px; padding-left: 18px; }
+.simulador label { display: block; color: var(--gris); margin-bottom: 6px; }
+.simulador p { margin: 10px 0 0; }
+
+.bitacora { list-style: none; padding: 0; margin: 0; background: #fff; border: 1px solid var(--borde); border-radius: 10px; }
+.bitacora li { display: grid; grid-template-columns: 160px 100px 1fr; gap: 12px; padding: 10px 16px; border-bottom: 1px solid #edf0f5; }
+.bitacora li:last-child { border-bottom: 0; }
+.bitacora time { color: var(--gris); font-variant-numeric: tabular-nums; font-size: 14px; }
+.op { font-weight: 600; color: var(--acero); }
+.op-eliminar { color: var(--error); }
+.op-crear { color: var(--ok); }
+
+@media (max-width: 780px) {
+  body { grid-template-columns: 1fr; }
+  .lateral { position: static; height: auto; flex-direction: row; flex-wrap: wrap; align-items: center; padding: 14px 16px; gap: 14px; }
+  .lateral nav { flex-direction: row; }
+  .pie { display: none; }
+  .contenido { padding: 22px 16px 40px; }
+  .archivos-fila, .ficha { grid-template-columns: 1fr; }
+  .bitacora li { grid-template-columns: 1fr; gap: 2px; }
+}

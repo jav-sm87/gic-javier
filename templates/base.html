@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block titulo %}Clientes{% endblock %} · GIC SolutionTech</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='estilos.css') }}">
+</head>
+<body>
+  <aside class="lateral">
+    <a class="marca" href="{{ url_for('lista') }}">
+      <span class="marca-sigla">GIC</span>
+      <span class="marca-nombre">Gestor Inteligente<br>de Clientes</span>
+    </a>
+    <nav>
+      <a href="{{ url_for('lista') }}" class="{{ 'activo' if request.endpoint == 'lista' }}">Clientes</a>
+      <a href="{{ url_for('nuevo') }}" class="{{ 'activo' if request.endpoint == 'nuevo' }}">Nuevo cliente</a>
+      <a href="{{ url_for('actividad') }}" class="{{ 'activo' if request.endpoint == 'actividad' }}">Actividad</a>
+    </nav>
+    <p class="pie">SolutionTech · v1.0</p>
+  </aside>
+  <main class="contenido">
+    {% with mensajes = get_flashed_messages(with_categories=true) %}
+      {% if mensajes %}
+      <div class="avisos" role="status">
+        {% for categoria, texto in mensajes %}<p class="aviso aviso-{{ categoria }}">{{ texto }}</p>{% endfor %}
+      </div>
+      {% endif %}
+    {% endwith %}
+    {% block contenido %}{% endblock %}
+  </main>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

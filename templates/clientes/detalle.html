@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block titulo %}{{ c.nombre }}{% endblock %}
+{% block contenido %}
+<header class="encabezado ficha-{{ c.TIPO }}">
+  <div>
+    <span class="etiqueta etiqueta-{{ c.TIPO }}">{{ c.TIPO|capitalize }}{% if c.TIPO == 'premium' %} {{ c.nivel }}{% endif %}</span>
+    <h1>{{ c.nombre }}</h1>
+    <p class="sub">RUT {{ c.rut }} · registrado el {{ c.fecha_registro }}</p>
+  </div>
+  <div class="botones">
+    <a class="boton" href="{{ url_for('editar', id_cliente=c.id) }}">Editar</a>
+    <form method="post" action="{{ url_for('eliminar', id_cliente=c.id) }}"
+          onsubmit="return confirm('¿Eliminar a {{ c.nombre }}? Esta acción no se puede deshacer.');">
+      <button class="boton boton-peligro" type="submit">Eliminar</button>
+    </form>
+  </div>
+</header>
+
+<div class="ficha">
+  <section>
+    <h2>Contacto</h2>
+    <dl>
+      <dt>Email</dt><dd>{{ c.email }}</dd>
+      <dt>Teléfono</dt><dd>{{ c.telefono }}</dd>
+      <dt>Dirección</dt><dd>{{ c.direccion }}</dd>
+      {% if c.TIPO == 'corporativo' %}
+      <dt>Empresa</dt><dd>{{ c.razon_social }} ({{ c.rut_empresa }})</dd>
+      <dt>Empleados</dt><dd>{{ c.empleados }}</dd>
+      {% elif c.TIPO == 'premium' %}
+      <dt>Puntos</dt><dd>{{ c.puntos }}</dd>
+      {% endif %}
+    </dl>
+  </section>
+  <section>
+    <h2>Beneficios</h2>
+    <ul class="beneficios">{% for b in c.beneficios() %}<li>{{ b }}</li>{% endfor %}</ul>
+    <form method="get" class="simulador">
+      <label for="monto">Simular compra (CLP)</label>
+      <div class="importar"><input id="monto" name="monto" type="number" min="0" step="1000" value="{{ monto|int }}">
+      <button class="boton boton-sec" type="submit">Calcular</button></div>
+      <p>Descuento: <strong>${{ "{:,.0f}".format(c.calcular_descuento(monto)).replace(",", ".") }}</strong>
+         · Total: <strong>${{ "{:,.0f}".format(c.precio_final(monto)).replace(",", ".") }}</strong></p>
+    </form>
+  </section>
+</div>
+{% endblock %}

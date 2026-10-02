@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block contenido %}
+<header class="encabezado">
+  <div>
+    <h1>Clientes</h1>
+    <p class="sub">{{ resumen.total }} registrados: {{ resumen.regular }} regulares, {{ resumen.premium }} premium y {{ resumen.corporativo }} corporativos.</p>
+  </div>
+  <a class="boton" href="{{ url_for('nuevo') }}">Agregar cliente</a>
+</header>
+
+<form class="filtros" method="get">
+  <input type="search" name="q" value="{{ texto }}" placeholder="Buscar por nombre, email o RUT" aria-label="Buscar">
+  <div class="segmentos" role="group" aria-label="Filtrar por tipo">
+    <a href="{{ url_for('lista', q=texto or None) }}" class="{{ 'sel' if not tipo_activo }}">Todos</a>
+    {% for t in tipos %}
+    <a href="{{ url_for('lista', tipo=t, q=texto or None) }}" class="seg-{{ t }} {{ 'sel' if tipo_activo == t }}">{{ t|capitalize }}</a>
+    {% endfor %}
+  </div>
+  <button class="boton boton-sec" type="submit">Buscar</button>
+</form>
+
+{% if clientes %}
+<div class="tabla-envoltura">
+<table class="tabla">
+  <thead><tr><th>Cliente</th><th>RUT</th><th>Contacto</th><th>Comuna</th><th>Tipo</th><th></th></tr></thead>
+  <tbody>
+  {% for c in clientes %}
+  <tr class="fila-{{ c.TIPO }}">
+    <td><a href="{{ url_for('detalle', id_cliente=c.id) }}" class="nombre">{{ c.nombre }}</a>
+      {% if c.TIPO == 'corporativo' %}<span class="detalle-chico">{{ c.razon_social }}</span>{% endif %}</td>
+    <td class="num">{{ c.rut }}</td>
+    <td>{{ c.email }}<span class="detalle-chico">{{ c.telefono }}</span></td>
+    <td>{{ c.direccion.comuna }}</td>
+    <td><span class="etiqueta etiqueta-{{ c.TIPO }}">{{ c.TIPO|capitalize }}{% if c.TIPO == 'premium' %} {{ c.nivel }}{% endif %}</span></td>
+    <td class="acciones"><a href="{{ url_for('editar', id_cliente=c.id) }}">Editar</a></td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% else %}
+<div class="vacio">
+  <p>{% if texto or tipo_activo %}Ningún cliente coincide con el filtro.{% else %}Todavía no hay clientes. Agrega el primero o importa un archivo JSON o CSV.{% endif %}</p>
+</div>
+{% endif %}
+
+<section class="archivos">
+  <h2>Archivos</h2>
+  <div class="archivos-fila">
+    <div>
+      <p>Descargar todos los clientes</p>
+      <a class="boton boton-sec" href="{{ url_for('exportar', formato='json') }}">Exportar JSON</a>
+      <a class="boton boton-sec" href="{{ url_for('exportar', formato='csv') }}">Exportar CSV</a>
+    </div>
+    <form method="post" action="{{ url_for('importar') }}" enctype="multipart/form-data">
+      <label for="archivo">Importar desde JSON o CSV</label>
+      <div class="importar">
+        <input id="archivo" type="file" name="archivo" accept=".json,.csv" required>
+        <button class="boton boton-sec" type="submit">Importar</button>
+      </div>
+    </form>
+  </div>
+</section>
+{% endblock %}
